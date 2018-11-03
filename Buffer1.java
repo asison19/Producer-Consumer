@@ -15,9 +15,11 @@ public class Buffer1 extends Buffer{
 		lock.unlock();
 	}
 	
-	public void write() {
+	public boolean write() {
+		boolean r;
 		lock.lock();
-		super.write();
+		r = super.write();
 		lock.unlock();
+		return r;
 	}
 }

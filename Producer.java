@@ -10,12 +10,16 @@ public class Producer extends Thread{
 		this.produceAmount = produceAmount;
 	}
 	public void run() {
+		produce();
+	}
+	
+	private void produce() {
 		while(produced != produceAmount) {
 			if (buffer.isFull()) {
-
+				
 			} else {
-				buffer.write();
-				produced++;
+				if(buffer.write())
+					produced++;
 			}
 		}
 	}

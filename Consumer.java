@@ -9,11 +9,11 @@ public class Consumer extends Thread{
 		this.buffer = buffer;
 		this.max = max;
 	}
+	
 	public void run() {
 		while(!buffer.isDone) {
 			consume();
 		}
-		System.out.println(this.getName());
 	}
 	
 	private void consume() {
