@@ -1,4 +1,3 @@
-
 public class Buffer {
 	int max; //how large the buffer is
 	Data[] data;

@@ -1,4 +1,3 @@
-
 //using isolated sections
 public class Buffer2 extends Buffer{
 	

@@ -1,4 +1,3 @@
-
 public class Producer extends Thread{
 	
 	Buffer buffer;
