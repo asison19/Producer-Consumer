@@ -1,7 +1,7 @@
 
 public class Buffer {
-	int max;
-	Data[] arr;
+	int max; //how large the buffer is
+	Data[] data;
 	int indexW = 0;
 	int indexR = 0;
 	int value = 1;
@@ -11,17 +11,17 @@ public class Buffer {
 	int amountRead = 0;
 	boolean isDone = false;
 	
-	public Buffer(int max, int producerAmount, int produceAmount) {
+	public Buffer(int max, int producerAmount, int produceAmount, Data[] arr) {
 		this.max = max;
-		this.arr = new Data[max];
-		
+		arr = new Data[max];
+		data = arr;
 		this.producerAmount = producerAmount;
 		totalValues = producerAmount * produceAmount;
 	}
 	
 	public boolean isFull() {
 		for (int i = 0 ; i < max; i++) {
-			if(arr[i] == null)
+			if(data[i] == null)
 				return false;
 		}
 		return true;
@@ -29,7 +29,7 @@ public class Buffer {
 	
 	public boolean isEmpty() {
 		for (int i = 0 ; i < max; i++) {
-			if(arr[i] != null)
+			if(data[i] != null)
 				return false;
 		}
 		return true;
@@ -37,12 +37,12 @@ public class Buffer {
 	
 	public void read() {
 		//if the element is empty, tick the next one for checking, return then check again
-		if(arr[indexR % max] == null) { 
+		if(data[indexR % max] == null) { 
 			indexR++;
 			return;
 		}
-		System.out.print(arr[indexR % max].value + " ");
-		arr[indexR % max] = null; //empty the element
+		System.out.print(data[indexR % max].value + " ");
+		data[indexR % max] = null; //empty the element
 		indexR++;
 		amountRead++;
 		try {
@@ -51,17 +51,18 @@ public class Buffer {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		if(amountRead == totalValues)
+		if(amountRead == totalValues) {
 			isDone = true;
+		}
 	}
 	
 	public boolean write() {
-		if(arr[indexW % max]!= null) {
+		if(data[indexW % max]!= null) {
 			indexW++;
 			return false;
 		}
 
-		arr[indexW % max] = new Data(value);
+		data[indexW % max] = new Data(value);
 		indexW++;
 		value++;
 		return true;

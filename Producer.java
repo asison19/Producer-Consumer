@@ -11,6 +11,7 @@ public class Producer extends Thread{
 	}
 	public void run() {
 		produce();
+		
 	}
 	
 	private void produce() {

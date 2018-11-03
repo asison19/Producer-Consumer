@@ -4,9 +4,10 @@ import java.util.concurrent.locks.ReentrantLock;
 public class Buffer1 extends Buffer{
 	
 	ReentrantLock lock = new ReentrantLock();
+	static Data[] data;
 	
 	public Buffer1(int max, int producerAmount, int produceAmount) {
-		super(max, producerAmount, produceAmount);
+		super(max, producerAmount, produceAmount, data);
 	}
 	
 	public void read() {
