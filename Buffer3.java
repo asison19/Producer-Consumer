@@ -3,19 +3,20 @@ import java.util.concurrent.atomic.AtomicInteger;
 //using atomics
 public class Buffer3 extends Buffer{
 	static AtomicData[] data;
-	AtomicInteger value = new AtomicInteger(1);
+	AtomicInteger value = new AtomicInteger(0);
 	public Buffer3(int max, int producerAmount, int produceAmount) {
 		super(max, producerAmount, produceAmount, data);
 		data = new AtomicData[max];
 	}
 	
 	public void read() {
-		if(data[indexR % max] == null) { 
+		//if the element is empty, tick the next one for checking, return then check again
+		if(super.data[indexR % max] == null) { 
 			indexR++;
 			return;
 		}
-		System.out.print(data[indexR % max].value + " ");
-		data[indexR % max] = null; //empty the element
+		System.out.print(super.data[indexR % max].value + " ");
+		super.data[indexR % max] = null; //empty the element
 		indexR++;
 		amountRead++;
 		try {
@@ -30,15 +31,21 @@ public class Buffer3 extends Buffer{
 	}
 	
 	public boolean write() {
-		if(data[indexW % max]!= null) {
+		if(super.data[indexW % max]!= null) {
 			indexW++;
 			return false;
 		}
-
-		data[indexW % max] = new AtomicData(value.get());
+		super.data[indexW % max] = new AtomicData(value.incrementAndGet()); 
 		indexW++;
-		value.incrementAndGet();
-		return true; //TODO gets stuck here?
+		return true;
+		
 	}
 }
+/*
+ * TODO:
+ * some thread doesn't die still; consumers?
+ * still some duplicates despite using atomic value 
+ * Example: [..] 486 487 488 489 490 491 491 493 493 495 495 497 497 499 499
+ * numbers in between is skipped, 492, 494, 496, 498, 500.
+ */
 
